@@ -13,11 +13,23 @@ import matplotlib.cm as cm
 import numpy as np
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-MODEL_NAME = "gpt2"  # swap for "gpt2-medium", "distilgpt2", etc.
+MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
+# No login required. Alternatives that fit the same ~2-6GB budget:
+#   "HuggingFaceTB/SmolLM2-1.7B-Instruct"   (also no login required)
+#   "meta-llama/Llama-3.2-1B-Instruct"       (gated -- see notes below)
+#
+# To use a gated Llama model instead:
+#   1. Visit the model page on huggingface.co while logged in and accept the license.
+#   2. Run `huggingface-cli login` locally (or set the HF_TOKEN env var) with a
+#      Hugging Face access token before running this script.
 
 print(f"Loading {MODEL_NAME} ...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME,
+    torch_dtype=torch.bfloat16,   # halves RAM vs the default float32
+    low_cpu_mem_usage=True,
+)
 model.eval()
 print("Model loaded.")
 
