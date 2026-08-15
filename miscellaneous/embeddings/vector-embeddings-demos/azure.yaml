@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: vector-embedding-demos
+metadata:
+  template: vector-embedding-demos@0.0.4
+hooks:
+  postprovision:
+    windows:
+      shell: pwsh
+      run: ./infra/write_dotenv.ps1
+      interactive: false
+      continueOnError: false
+    posix:
+      shell: sh
+      run: ./infra/write_dotenv.sh
+      interactive: false
+      continueOnError: false

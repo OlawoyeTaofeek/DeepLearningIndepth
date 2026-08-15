@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "my_agent": "./summarization_middleware.py:graph"
+  },
+  "env": "./.env"
+}
